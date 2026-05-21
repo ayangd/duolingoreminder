@@ -50,7 +50,10 @@ Add the flake input and import the module:
 
 ```nix
 # flake.nix
-inputs.duolingoreminder.url = "github:ayangd/duolingoreminder";
+inputs.duolingoreminder = {
+  url = "github:ayangd/duolingoreminder";
+  inputs.nixpkgs.follows = "nixpkgs";
+};
 ```
 
 ```nix
@@ -70,7 +73,9 @@ inputs.duolingoreminder.url = "github:ayangd/duolingoreminder";
     ];
     schedule = "*-*-* 09:00,13:00,19:00:00"; # default
     # sound = /path/to/custom/sound.mp3;
-    # package = inputs.duolingoreminder.packages.${pkgs.system}.default; # default
+    # package = inputs.duolingoreminder.packages.${pkgs.system}.default.override {
+    #   stdenv = pkgs.llvmPackages_18.stdenv;  # use clang instead of gcc
+    # };
   };
 }
 ```

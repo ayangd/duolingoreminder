@@ -15,7 +15,7 @@
         pkgs = import nixpkgs { inherit system; };
         llvm = pkgs.llvmPackages_18;
       in {
-        packages.default = llvm.stdenv.mkDerivation {
+        packages.default = pkgs.stdenv.mkDerivation {
           pname = "duolingoreminder";
           version = "0.1.0";
           src = self;
