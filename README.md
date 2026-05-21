@@ -4,25 +4,10 @@ C++23 Duolingo streak reminder. Checks your public profile and sends a desktop n
 
 ## Setup
 
-### Install via Nix
-
-```bash
-nix build
-nix profile install .
-```
-
-Or run directly:
-
-```bash
-nix run . -- --check
-```
-
 ### Runtime dependencies
 
 - `notify-send` (from `libnotify`) for desktop notifications
 - `paplay` (from PulseAudio/PipeWire) for notification sound
-
-On NixOS, add `libnotify` to your system or home-manager packages. `paplay` is typically available via PipeWire or PulseAudio.
 
 ### Configuration
 
@@ -38,13 +23,26 @@ messages = [
     "Don't break the streak!",
 ]
 
-# Optional: override the bundled notification sound
+# Optional: override the bundled notification sound (Duolingo ding plays by default)
 # sound = "/path/to/custom/sound.mp3"
 ```
 
-The bundled Duolingo correct-answer ding plays by default. Set `sound` only to override it.
+## Installation
 
-### Home Manager module
+### Nix
+
+```bash
+nix build
+nix profile install .
+```
+
+Or run directly:
+
+```bash
+nix run . -- --check
+```
+
+#### Home Manager module
 
 Add the flake input and import the module:
 
@@ -76,7 +74,7 @@ inputs.duolingoreminder = {
       "*-*-* 22:00:00"
       "*-*-* 22:30:00"
     ];
-    # sound = /path/to/custom/sound.mp3;
+    # sound = "/path/to/custom/sound.mp3";
     # package = inputs.duolingoreminder.packages.${pkgs.system}.default.override {
     #   stdenv = pkgs.llvmPackages_18.stdenv;  # use clang instead of gcc
     # };
@@ -86,7 +84,17 @@ inputs.duolingoreminder = {
 
 This generates the config file, systemd service + timer, and ensures `notify-send` and `paplay` are in the service PATH.
 
-### Manual systemd timer
+### Manual
+
+Requires CMake, Ninja, and C++23-capable compiler. Dependencies: libcurl, nlohmann_json, toml++.
+
+```bash
+cmake -B build -G Ninja -DENABLE_CLANG_TIDY=OFF
+cmake --build build
+cmake --install build --prefix ~/.local
+```
+
+#### Systemd timer
 
 ```ini
 # ~/.config/systemd/user/duolingoreminder.service
@@ -95,7 +103,7 @@ Description=Duolingo streak reminder
 
 [Service]
 Type=oneshot
-ExecStart=%h/.nix-profile/bin/duolingoreminder --check
+ExecStart=%h/.local/bin/duolingoreminder --check
 ```
 
 ```ini
@@ -187,7 +195,9 @@ cmake --build build-fast
 
 Installed to `$prefix/share/duolingoreminder/` by CMake. The binary falls back gracefully if assets are missing (e.g., dev builds without `cmake --install`).
 
-## API
+## Reference
+
+### API
 
 No official Duolingo API. All endpoints reverse-engineered, can break anytime.
 
@@ -199,10 +209,10 @@ Public data available without auth: streak, totalXp, courses, hasPlus, recentAct
 
 Streak logic: `endDate == today` means lesson done — no notification sent.
 
-## Stack
+### Stack
 
 - C++23 / Clang 18
 - libcurl (RAII-wrapped, no raw pointers)
 - nlohmann/json
 - toml++ (config parsing)
-- Nix flake (dev shell + package derivation)
+- Nix flake (dev shell + package derivation + Home Manager module)
