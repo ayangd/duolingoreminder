@@ -71,7 +71,11 @@ inputs.duolingoreminder = {
       "Time for Duolingo!"
       "Your owl is watching..."
     ];
-    schedule = "*-*-* 09:00,13:00,19:00:00"; # default
+    schedule = [             # or a single string; default: "*-*-* 09:00,13:00,19:00:00"
+      "*-*-* 21:00:00"
+      "*-*-* 22:00:00"
+      "*-*-* 22:30:00"
+    ];
     # sound = /path/to/custom/sound.mp3;
     # package = inputs.duolingoreminder.packages.${pkgs.system}.default.override {
     #   stdenv = pkgs.llvmPackages_18.stdenv;  # use clang instead of gcc

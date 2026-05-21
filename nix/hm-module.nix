@@ -31,7 +31,7 @@ in
     };
 
     messages = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
+      type = with lib.types; listOf str;
       default = [
         "Time for Duolingo!"
         "Your owl is watching..."
@@ -41,15 +41,15 @@ in
     };
 
     sound = lib.mkOption {
-      type = lib.types.nullOr lib.types.path;
+      type = with lib.types; nullOr path;
       default = null;
       description = "Custom sound file path. Uses bundled Duolingo ding when null.";
     };
 
     schedule = lib.mkOption {
-      type = lib.types.str;
+      type = with lib.types; either str (listOf str);
       default = "*-*-* 09:00,13:00,19:00:00";
-      description = "systemd OnCalendar schedule for reminders.";
+      description = "systemd OnCalendar schedule. String or list of strings for multiple entries.";
     };
   };
 
