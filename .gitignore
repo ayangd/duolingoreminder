@@ -1,0 +1,16 @@
+build/
+cmake-build-*/
+out/
+
+.vscode/
+.idea/
+*.swp
+*~
+
+result
+result-*
+
+.DS_Store
+Thumbs.db
+
+.direnv/

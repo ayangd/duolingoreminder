@@ -1,0 +1,36 @@
+---
+Checks: >
+  -*,
+  bugprone-*,
+  cppcoreguidelines-owning-memory,
+  cppcoreguidelines-no-malloc,
+  cppcoreguidelines-avoid-c-arrays,
+  cppcoreguidelines-pro-type-cstyle-cast,
+  cppcoreguidelines-pro-type-reinterpret-cast,
+  cppcoreguidelines-special-member-functions,
+  modernize-*,
+  -modernize-use-trailing-return-type,
+  performance-*,
+  readability-identifier-naming,
+  readability-redundant-smartptr-get,
+  readability-braces-around-statements,
+  misc-non-private-member-variables-in-classes
+
+WarningsAsErrors: >
+  cppcoreguidelines-owning-memory,
+  cppcoreguidelines-no-malloc
+
+CheckOptions:
+  - key: readability-identifier-naming.ClassCase
+    value: CamelCase
+  - key: readability-identifier-naming.FunctionCase
+    value: camelCase
+  - key: readability-identifier-naming.VariableCase
+    value: camelCase
+  - key: readability-identifier-naming.ConstantCase
+    value: UPPER_CASE
+  - key: readability-identifier-naming.NamespaceCase
+    value: lower_case
+
+HeaderFilterRegex: '.*'
+FormatStyle: file
