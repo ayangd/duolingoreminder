@@ -18,6 +18,7 @@ struct Course {
 struct Streak {
     std::optional<std::int64_t> length;
     std::optional<std::string> startDate;
+    std::optional<std::string> endDate;
 };
 
 struct UserProfile {

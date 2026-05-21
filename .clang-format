@@ -14,4 +14,4 @@ NamespaceIndentation: None
 PointerAlignment: Left
 SortIncludes: CaseInsensitive
 SpaceAfterCStyleCast: false
-Standard: c++23
+Standard: Latest

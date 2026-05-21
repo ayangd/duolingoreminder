@@ -1,6 +1,11 @@
 find_package(GTest REQUIRED)
 
-add_executable(duolingoreminder_tests duolingo_client_test.cpp ../src/duolingo_client.cpp)
+add_executable(duolingoreminder_tests
+    duolingo_client_test.cpp
+    config_test.cpp
+    checker_test.cpp
+    notifier_test.cpp
+)
 
 target_include_directories(duolingoreminder_tests PRIVATE ../src)
 
@@ -8,8 +13,7 @@ target_compile_options(duolingoreminder_tests PRIVATE -Wall -Wextra -Wpedantic -
 
 target_link_libraries(duolingoreminder_tests PRIVATE
     GTest::gtest_main
-    CURL::libcurl
-    nlohmann_json::nlohmann_json
+    duolingoreminder_lib
 )
 
 include(GoogleTest)

@@ -76,6 +76,9 @@ auto parseUserProfile(const nlohmann::json& json) -> UserProfile {
         if (cs.contains("startDate") && !cs["startDate"].is_null()) {
             profile.currentStreak.startDate = cs.value("startDate", "");
         }
+        if (cs.contains("endDate") && !cs["endDate"].is_null()) {
+            profile.currentStreak.endDate = cs.value("endDate", "");
+        }
     }
 
     if (user.contains("courses") && user["courses"].is_array()) {
