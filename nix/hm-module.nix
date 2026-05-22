@@ -1,7 +1,10 @@
 { self }:
-
-{ config, lib, pkgs, ... }:
-
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.services.duolingoreminder;
 
@@ -21,7 +24,7 @@ in
 
     package = lib.mkOption {
       type = lib.types.package;
-      default = self.packages.${pkgs.system}.default;
+      default = self.packages.${pkgs.stdenv.hostPlatform.system}.default;
       description = "The duolingoreminder package to use.";
     };
 
@@ -61,7 +64,12 @@ in
         Type = "oneshot";
         ExecStart = "${cfg.package}/bin/duolingoreminder --check --config ${configFile}";
         Environment = [
-          "PATH=${lib.makeBinPath [ pkgs.libnotify pkgs.pulseaudio ]}:$PATH"
+          "PATH=${
+            lib.makeBinPath [
+              pkgs.libnotify
+              pkgs.pulseaudio
+            ]
+          }:$PATH"
         ];
       };
     };
